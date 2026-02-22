@@ -1,0 +1,52 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{% block title %}AI Course Factory{% endblock %}</title>
+
+    {% block head %}{% endblock %}
+
+    <style>
+      :root {
+        --bg: #f9fafb;
+        --fg: #111827;
+        --muted: #6b7280;
+        --border: #e5e7eb;
+        --brand: #111827;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--fg);
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+        line-height: 1.45;
+      }
+      main {
+        max-width: 960px;
+        margin: 0 auto;
+        padding: 1.5rem 1rem;
+      }
+      .card {
+        background: #fff;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 1rem;
+      }
+      a { color: inherit; }
+    </style>
+  </head>
+
+  <body>
+    {% include "partials/navbar.html" %}
+
+    <main>
+      {% include "partials/messages.html" %}
+      {% block content %}{% endblock %}
+    </main>
+
+    {% include "partials/footer.html" %}
+    {% block scripts %}{% endblock %}
+  </body>
+</html>

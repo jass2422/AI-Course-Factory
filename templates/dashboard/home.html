@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+  <div class="card" style="max-width: 720px; margin: 0 auto;">
+    <h1 style="margin-top: 0;">Generate a Course</h1>
+    <p style="margin: -0.25rem 0 1rem 0; color: var(--muted);">Welcome, {{ request.user.username }}.</p>
+
+    {% if generation_error %}
+      <div style="border: 1px solid #fecaca; background: #fef2f2; color: #991b1b; padding: 0.75rem 1rem; border-radius: 10px; margin-bottom: 1rem;">
+        <strong>Generation error:</strong> {{ generation_error }}
+      </div>
+    {% endif %}
+
+    <form method="post" action="{% url 'generate_course' %}" style="display: grid; gap: 1rem;">
+      {% csrf_token %}
+
+      <div style="display: grid; gap: 0.4rem;">
+        <label for="id_topic" style="font-weight: 600;">Topic</label>
+        <input
+          id="id_topic"
+          name="topic"
+          type="text"
+          placeholder="e.g. Python for data analysis"
+          value="{{ topic|default:'' }}"
+          required
+          style="padding: 0.65rem 0.75rem; border-radius: 10px; border: 1px solid var(--border);"
+        />
+      </div>
+
+      <div style="display: grid; gap: 0.4rem;">
+        <label for="id_level" style="font-weight: 600;">Level</label>
+        <select
+          id="id_level"
+          name="level"
+          required
+          style="padding: 0.65rem 0.75rem; border-radius: 10px; border: 1px solid var(--border); background: #fff;"
+        >
+          <option value="Beginner" {% if level == "Beginner" %}selected{% endif %}>Beginner</option>
+          <option value="Intermediate" {% if level == "Intermediate" %}selected{% endif %}>Intermediate</option>
+          <option value="Advanced" {% if level == "Advanced" %}selected{% endif %}>Advanced</option>
+        </select>
+      </div>
+
+      <button
+        type="submit"
+        style="justify-self: start; background: #111827; color: #fff; border: 0; padding: 0.75rem 1rem; border-radius: 10px; cursor: pointer;"
+      >
+        Generate My Course
+      </button>
+    </form>
+  </div>
+{% endblock %}

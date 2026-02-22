@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}Sign Up{% endblock %}
+
+{% block content %}
+  <div class="card" style="max-width: 520px; margin: 0 auto;">
+    <h1 style="margin-top: 0;">Sign Up</h1>
+
+    <form method="post" novalidate>
+      {% csrf_token %}
+      {{ form.as_p }}
+
+      <button
+        type="submit"
+        style="background: #111827; color: #fff; border: 0; padding: 0.7rem 1rem; border-radius: 10px; cursor: pointer;"
+      >
+        Create Account
+      </button>
+    </form>
+  </div>
+{% endblock %}

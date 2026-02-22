@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}{{ course.title }}{% endblock %}
+
+{% block content %}
+  <div style="max-width: 1100px; margin: 0 auto; display: flex; gap: 1rem; align-items: flex-start;">
+    <aside class="card" style="width: 280px; position: sticky; top: 1rem;">
+      <h2 style="margin-top: 0; font-size: 1.1rem;">Modules</h2>
+
+      {% for module in course.modules.all %}
+        <div style="margin-bottom: 1rem;">
+          <div style="font-weight: 700; margin-bottom: 0.4rem;">
+            {{ module.order }}. {{ module.title }}
+          </div>
+
+          <ul style="list-style: none; padding-left: 0; margin: 0; display: grid; gap: 0.25rem;">
+            {% for lesson in module.lessons.all %}
+              {% if active_lesson and lesson.id == active_lesson.id %}
+                <li>
+                  <a
+                    href="{% url 'course_detail' course_id=course.id %}?lesson={{ lesson.id }}"
+                    style="display: block; text-decoration: none; padding: 0.4rem 0.5rem; border-radius: 10px; background: #111827; color: #fff;"
+                  >
+                    {{ lesson.title }}
+                  </a>
+                </li>
+              {% else %}
+                <li>
+                  <a
+                    href="{% url 'course_detail' course_id=course.id %}?lesson={{ lesson.id }}"
+                    style="display: block; text-decoration: none; padding: 0.4rem 0.5rem; border-radius: 10px; border: 1px solid var(--border); background: #fff;"
+                  >
+                    {{ lesson.title }}
+                  </a>
+                </li>
+              {% endif %}
+            {% endfor %}
+          </ul>
+        </div>
+      {% endfor %}
+
+      <a href="/dashboard/" style="display: inline-block; margin-top: 0.25rem;">Back to dashboard</a>
+    </aside>
+
+    <section class="card" style="flex: 1;">
+      <h1 style="margin-top: 0;">{{ course.title }}</h1>
+      <p style="margin-top: -0.25rem; color: var(--muted);">
+        Topic: {{ course.topic }} &middot; Level: {{ course.level }}
+      </p>
+
+      <hr style="border: none; border-top: 1px solid var(--border); margin: 1.25rem 0;" />
+
+      {% if active_lesson %}
+        <h2 style="margin: 0 0 0.25rem 0;">{{ active_lesson.title }}</h2>
+        {% if active_module %}
+          <p style="margin: 0 0 1rem 0; color: var(--muted);">Module: {{ active_module.title }}</p>
+        {% endif %}
+
+        <div style="white-space: pre-wrap;">{{ active_lesson.content }}</div>
+      {% else %}
+        <p style="margin: 0;">No lessons found for this course.</p>
+      {% endif %}
+    </section>
+  </div>
+{% endblock %}
